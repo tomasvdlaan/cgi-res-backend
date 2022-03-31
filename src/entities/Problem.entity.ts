@@ -12,7 +12,7 @@ export class Problem extends Base {
   @Column({ type: 'varchar', nullable: false })
   title: string;
 
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ type: 'varchar', nullable: true })
   description: string;
 
   @Column({ type: 'timestamp', nullable: true, default: null })
@@ -24,5 +24,5 @@ export class Problem extends Base {
     nullable: false,
     default: ProblemPriority.MEDIUM,
   })
-  status: ProblemPriority;
+  priority: ProblemPriority;
 }
