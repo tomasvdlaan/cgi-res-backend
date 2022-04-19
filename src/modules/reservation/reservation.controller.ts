@@ -7,7 +7,9 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Reservation } from 'src/entities/Reservation.entity';
 import { CreateReservationDTO } from './dto/CreateReservation.dto';
@@ -19,6 +21,7 @@ import { ReservationService } from './reservation.service';
 export class ReservationController {
   constructor(private service: ReservationService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Retrieve all reservations' })
   @Get()
   getAll(): Promise<Reservation[]> {

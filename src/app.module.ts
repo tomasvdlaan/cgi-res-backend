@@ -10,6 +10,7 @@ import { ProblemModule } from './modules/problem/problem.module';
 import { ReservationModule } from './modules/reservation/reservation.module';
 import { UserModule } from './modules/user/user.module';
 import { WorkspaceModule } from './modules/workspace/workspace.module';
+import { AuthzModule } from './authz/authz.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { WorkspaceModule } from './modules/workspace/workspace.module';
     BuildingModule,
     ProblemModule,
     PeripheralModule,
+    AuthzModule,
   ],
   controllers: [AppController],
   providers: [AppService],

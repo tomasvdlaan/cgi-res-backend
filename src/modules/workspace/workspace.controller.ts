@@ -7,7 +7,9 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Workspace } from 'src/entities/Workspace.entity';
 import { CreateWorkspaceDTO } from './dto/CreateWorkspace.dto';

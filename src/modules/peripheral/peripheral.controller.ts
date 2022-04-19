@@ -7,7 +7,9 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Peripheral } from 'src/entities/Peripheral.entity';
 import { PeripheralCategory } from 'src/entities/PeripheralCategory.entity';
