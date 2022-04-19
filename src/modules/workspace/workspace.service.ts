@@ -13,12 +13,16 @@ export class WorkspaceService {
   ) {}
 
   getAll(): Promise<Workspace[]> {
-    return this.repository.createQueryBuilder().getMany();
+    return this.repository
+      .createQueryBuilder('workspace')
+      .leftJoinAndSelect('workspace.building', 'building')
+      .getMany();
   }
 
   getById(id: number): Promise<Workspace> {
     return this.repository
       .createQueryBuilder('workspace')
+      .leftJoinAndSelect('workspace.building', 'building')
       .where('workspace.id = :id', { id: id })
       .getOneOrFail();
   }

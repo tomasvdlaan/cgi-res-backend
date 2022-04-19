@@ -9,4 +9,8 @@ export class UpdateWorkspaceDTO {
   @ApiProperty()
   @Allow()
   title: string;
+
+  @ApiProperty()
+  @Allow()
+  building: { id: number };
 }

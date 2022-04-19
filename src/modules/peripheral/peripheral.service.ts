@@ -18,12 +18,18 @@ export class PeripheralService {
   ) {}
 
   getAll(): Promise<Peripheral[]> {
-    return this.repository.createQueryBuilder().getMany();
+    return this.repository
+      .createQueryBuilder('peripheral')
+      .leftJoinAndSelect('peripheral.building', 'building')
+      .leftJoinAndSelect('peripheral.category', 'category')
+      .getMany();
   }
 
   getById(id: number): Promise<Peripheral> {
     return this.repository
       .createQueryBuilder('peripheral')
+      .leftJoinAndSelect('peripheral.building', 'building')
+      .leftJoinAndSelect('peripheral.category', 'category')
       .where('peripheral.id = :id', { id: id })
       .getOneOrFail();
   }

@@ -1,4 +1,3 @@
-import { buildMessage } from 'class-validator';
 import { Base } from 'src/helper/BaseEntity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Building } from './Building.entity';
@@ -14,15 +13,15 @@ export class Workspace extends Base {
   @Column({ type: 'boolean', nullable: false, default: true })
   isReservable: boolean = true;
 
-  @ManyToOne(type => Problem)
+  @ManyToOne((type) => Problem)
   problem: Problem;
 
-  @ManyToOne(type => ObjectType)
+  @ManyToOne((type) => ObjectType)
   objectType: ObjectType;
 
-  @OneToMany(type => Reservation, r => r.user)
+  @OneToMany((type) => Reservation, (r) => r.workspace)
   reservations: Reservation[];
 
-  @ManyToOne(type => Building)
+  @ManyToOne((type) => Building)
   building: Building;
 }

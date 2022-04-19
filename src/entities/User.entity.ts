@@ -1,14 +1,8 @@
 import { Base } from 'src/helper/BaseEntity';
-import { Column, Entity, OneToMany } from 'typeorm';
-import { Reservation } from './Reservation.entity';
+import { Column, Entity } from 'typeorm';
 
 @Entity()
 export class User extends Base {
   @Column({ type: 'varchar' })
   name: string;
-
-  @OneToMany(type => Reservation, r => r.user)
-  reservations: Reservation[];
-
-  
 }

@@ -9,4 +9,12 @@ export class UpdatePeripheralDTO {
   @ApiProperty()
   @Allow()
   title: Date;
+
+  @ApiProperty()
+  @Allow()
+  building: { id: number };
+
+  @ApiProperty()
+  @Allow()
+  category: { id: number };
 }
