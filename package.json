@@ -37,6 +37,7 @@
     "jwks-rsa": "^2.0.5",
     "passport": "^0.5.2",
     "passport-jwt": "^4.0.0",
+    "mysql": "^2.18.1",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

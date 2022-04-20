@@ -1,5 +1,7 @@
 import { Base } from 'src/helper/BaseEntity';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { ReservableObject } from './ReservableObject.entity';
+import { Workspace } from './Workspace.entity';
 
 export enum ProblemPriority {
   'HIGH',
@@ -25,4 +27,12 @@ export class Problem extends Base {
     default: ProblemPriority.MEDIUM,
   })
   priority: ProblemPriority;
+
+  @OneToMany(type => ReservableObject, ro => ro.problem)
+  ReservableObject: ReservableObject[];
+
+  @OneToMany(type => Workspace, ws => ws.problem)
+  WorkSpaces: Workspace[];
+
+
 }

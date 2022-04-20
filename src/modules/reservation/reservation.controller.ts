@@ -8,11 +8,13 @@ import {
   Post,
   Put,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Reservation } from 'src/entities/Reservation.entity';
 import { CreateReservationDTO } from './dto/CreateReservation.dto';
+import { GetUserReservations } from './dto/GetUserReservations';
 import { UpdateReservationDTO } from './dto/UpdateReservation.dto';
 import { ReservationService } from './reservation.service';
 
@@ -26,6 +28,16 @@ export class ReservationController {
   @Get()
   getAll(): Promise<Reservation[]> {
     return this.service.getAll();
+  }
+
+  @ApiOperation({ summary: 'Retrieve all reservations' })
+  @Get('/user/:userId')
+  getReservationsByUser(
+    @Param('userId') id: string,
+    @Query() query: GetUserReservations,
+  ): Promise<Reservation[]> {
+    query.userId = id;
+    return this.service.getByUserId(query);
   }
 
   @ApiOperation({ summary: 'Retrieve a reservation by its id' })
