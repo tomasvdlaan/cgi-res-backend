@@ -9,4 +9,12 @@ export class CreateReservationDTO {
   @ApiProperty()
   @IsNotEmpty()
   end: Date;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  userId: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  workspace: {id: number};
 }

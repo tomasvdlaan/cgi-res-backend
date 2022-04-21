@@ -11,6 +11,7 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Workspace } from 'src/entities/Workspace.entity';
 import { CreateWorkspaceDTO } from './dto/CreateWorkspace.dto';
+import { GetAvailableWorkSpaceDTO } from './dto/GetAvailableWorkSpace.dto';
 import { UpdateWorkspaceDTO } from './dto/UpdateWorkspace.dto';
 import { WorkspaceService } from './workspace.service';
 
@@ -29,6 +30,18 @@ export class WorkspaceController {
   @Get('/:id')
   getById(@Param('id', new ParseIntPipe()) id: number): Promise<Workspace> {
     return this.service.getById(id);
+  }
+
+  @ApiOperation({ summary: 'Retrieve a list of available workspaces' })
+  @Get('/:start/:end')
+  getAlailableSeats(@Param('start') start: Date,@Param('end') end: Date): Promise<Workspace[]> {
+    const dto: GetAvailableWorkSpaceDTO =
+    {
+      start: start,
+      end: end
+    }
+    console.log(dto);
+    return this.service.findAllAvailableWorkspacesTimeDate(dto);
   }
 
   @ApiOperation({ summary: 'Create a workspace' })

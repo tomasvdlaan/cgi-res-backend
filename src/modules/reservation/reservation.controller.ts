@@ -48,4 +48,11 @@ export class ReservationController {
   delete(@Param('id', new ParseIntPipe()) id: number): Promise<any> {
     return this.service.delete(id);
   }
+
+  @ApiOperation({ summary: 'Can scan secret' })
+  @Get('scan/:uuid')
+  getScanSecret(@Param('uuid',) uuid: string): Promise<Reservation> {
+    return this.service.scanSecret(uuid);
+  }
+
 }

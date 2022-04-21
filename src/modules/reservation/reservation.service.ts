@@ -34,4 +34,14 @@ export class ReservationService {
   delete(id: number): Promise<any> {
     return this.repository.delete(id);
   }
+
+  scanSecret(uuid: string): Promise<any>
+  {
+    const d = new Date();
+    return this.repository.createQueryBuilder()
+      .update('reservation')
+      .set({isScannedAt: d.toISOString()})
+      .where('secret = :uuid',{uuid:uuid}).execute();
+
+  }
 }

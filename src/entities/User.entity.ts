@@ -5,10 +5,5 @@ import { Reservation } from './Reservation.entity';
 @Entity()
 export class User extends Base {
   @Column({ type: 'varchar' })
-  name: string;
-
-  @OneToMany(type => Reservation, r => r.user)
-  reservations: Reservation[];
-
-  
+  name: string;  
 }
