@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Req,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Reservation } from 'src/entities/Reservation.entity';
@@ -53,6 +54,19 @@ export class ReservationController {
   @Get('scan/:uuid')
   getScanSecret(@Param('uuid',) uuid: string): Promise<Reservation> {
     return this.service.scanSecret(uuid);
+  }
+
+  @ApiOperation({ summary: 'Gets reservations for the user' })
+  @Get('scan/:user')
+  getReservationsForUser(@Param('userId') userId: Number, @Req() request: Request): Promise<Reservation[]> {
+    //request.headers.get('authorization');
+    // zou de auth0 acces token
+    // stuur naar api
+    // krijg user data
+    // daarmee haal je de gegevens op 
+
+    
+    return this.service.getReservationsForUser(userId);
   }
 
 }

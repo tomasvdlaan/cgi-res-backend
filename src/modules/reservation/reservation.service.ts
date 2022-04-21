@@ -42,6 +42,11 @@ export class ReservationService {
       .update('reservation')
       .set({isScannedAt: d.toISOString()})
       .where('secret = :uuid',{uuid:uuid}).execute();
+  }
 
+  getReservationsForUser(userId: Number): Promise<Reservation[]>
+  {
+    return this.repository.createQueryBuilder()
+      .where("userId = :userId",{userId: userId}).getMany();
   }
 }

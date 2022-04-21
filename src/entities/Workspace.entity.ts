@@ -14,9 +14,6 @@ export class Workspace extends Base {
   @Column({ type: 'boolean', nullable: false, default: true })
   isReservable: boolean = true;
 
-  @Column({type: 'timestamp',nullable: true })
-  isScannedAt: Date;
-
   @ManyToOne(type => Problem)
   problem: Problem;
 
