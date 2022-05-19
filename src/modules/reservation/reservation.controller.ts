@@ -58,7 +58,7 @@ export class ReservationController {
 
   @ApiOperation({ summary: 'Gets reservations for the user' })
   @Get('scan/:user')
-  getReservationsForUser(@Param('userId') userId: Number, @Req() request: Request): Promise<Reservation[]> {
+  getReservationsForUser(@Param('userId') userId: Number): Promise<Reservation[]> {
     //request.headers.get('authorization');
     // zou de auth0 acces token
     // stuur naar api

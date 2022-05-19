@@ -27,9 +27,9 @@ export class Reservation extends Base {
 
   @Column({type: 'timestamp',nullable: true })
   isScannedAt: Date;
-
-
   
   @ManyToOne(type => ReservableObject)
   ReservableObject: ReservableObject;
+
+  
 }

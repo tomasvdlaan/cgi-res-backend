@@ -3,6 +3,7 @@ import { Base } from 'src/helper/BaseEntity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Building } from './Building.entity';
 import { ObjectType } from './OjectType.entity';
+import { Peripheral } from './Peripheral.entity';
 import { Problem } from './Problem.entity';
 import { Reservation } from './Reservation.entity';
 
@@ -25,4 +26,8 @@ export class Workspace extends Base {
 
   @ManyToOne(type => Building)
   building: Building;
+
+  @OneToMany(type => Peripheral, p => p.workspace)
+  Peripherals: Peripheral[];
+
 }
