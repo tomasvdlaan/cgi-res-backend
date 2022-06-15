@@ -12,6 +12,7 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Reservation } from 'src/entities/Reservation.entity';
 import { CreateReservationDTO } from './dto/CreateReservation.dto';
+import { GetReservationOptions } from './dto/GetReservations.dto';
 import { GetUserReservations } from './dto/GetUserReservations';
 import { UpdateReservationDTO } from './dto/UpdateReservation.dto';
 import { ReservationService } from './reservation.service';
@@ -23,8 +24,8 @@ export class ReservationController {
 
   @ApiOperation({ summary: 'Retrieve all reservations' })
   @Get()
-  getAll(): Promise<Reservation[]> {
-    return this.service.getAll();
+  getAll(@Query() options: GetReservationOptions): Promise<Reservation[]> {
+    return this.service.getAll(options);
   }
 
   @ApiOperation({ summary: 'Retrieve all reservations' })
@@ -46,6 +47,7 @@ export class ReservationController {
   @ApiOperation({ summary: 'Create a reservation' })
   @Post('/create')
   create(@Body() reservation: CreateReservationDTO): Promise<Reservation> {
+    console.log(reservation);
     return this.service.create(reservation);
   }
 

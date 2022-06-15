@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as moment from 'moment';
 import { Reservation } from 'src/entities/Reservation.entity';
 import { Repository } from 'typeorm';
 import { CreateReservationDTO } from './dto/CreateReservation.dto';
+import { GetReservationOptions } from './dto/GetReservations.dto';
 import { GetUserReservations } from './dto/GetUserReservations';
 import { UpdateReservationDTO } from './dto/UpdateReservation.dto';
 
@@ -13,17 +15,36 @@ export class ReservationService {
     private repository: Repository<Reservation>,
   ) {}
 
-  getAll(): Promise<Reservation[]> {
-    return this.repository
+  getAll(options: GetReservationOptions): Promise<Reservation[]> {
+    let query = this.repository
       .createQueryBuilder('reservation')
       .leftJoinAndSelect('reservation.workspace', 'workspace')
-      .getMany();
+      .leftJoinAndSelect('workspace.building', 'building')
+      .orderBy('reservation.start');
+
+    if (!options.includePast)
+      query.where('reservation.start > :now', {
+        now: new Date().toISOString(),
+      });
+
+    if (options.start)
+      query.andWhere('reservation.start > :start', {
+        start: moment(options.start).toISOString(),
+      });
+
+    if (options.end)
+      query.andWhere('reservation.end > :end', {
+        end: moment(options.end).toISOString(),
+      });
+
+    return query.getMany();
   }
 
   getById(id: number): Promise<Reservation> {
     return this.repository
       .createQueryBuilder('reservation')
       .leftJoinAndSelect('reservation.workspace', 'workspace')
+      .leftJoinAndSelect('workspace.building', 'building')
       .where('reservation.id = :id', { id: id })
       .getOneOrFail();
   }

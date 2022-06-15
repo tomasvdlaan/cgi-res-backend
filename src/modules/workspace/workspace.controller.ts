@@ -7,10 +7,12 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Workspace } from 'src/entities/Workspace.entity';
 import { CreateWorkspaceDTO } from './dto/CreateWorkspace.dto';
+import { GetWorkspaceOptions } from './dto/GetWorkspace.dto';
 import { UpdateWorkspaceDTO } from './dto/UpdateWorkspace.dto';
 import { WorkspaceService } from './workspace.service';
 
@@ -27,8 +29,11 @@ export class WorkspaceController {
 
   @ApiOperation({ summary: 'Retrieve a workspace by its id' })
   @Get('/:id')
-  getById(@Param('id', new ParseIntPipe()) id: number): Promise<Workspace> {
-    return this.service.getById(id);
+  getById(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Query() options: GetWorkspaceOptions,
+  ): Promise<Workspace> {
+    return this.service.getById(id, options);
   }
 
   @ApiOperation({ summary: 'Create a workspace' })
