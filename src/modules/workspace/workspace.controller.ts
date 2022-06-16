@@ -13,6 +13,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Workspace } from 'src/entities/Workspace.entity';
 import { CreateWorkspaceDTO } from './dto/CreateWorkspace.dto';
 import { GetWorkspaceOptions } from './dto/GetWorkspace.dto';
+import { QueryWorkspaces } from './dto/QueryWorkspaces.dto';
 import { UpdateWorkspaceDTO } from './dto/UpdateWorkspace.dto';
 import { WorkspaceService } from './workspace.service';
 
@@ -23,8 +24,8 @@ export class WorkspaceController {
 
   @ApiOperation({ summary: 'Retrieve all workspaces' })
   @Get()
-  getAll(): Promise<Workspace[]> {
-    return this.service.getAll();
+  getAll(@Query() query: QueryWorkspaces): Promise<Workspace[]> {
+    return this.service.getAll(query);
   }
 
   @ApiOperation({ summary: 'Retrieve a workspace by its id' })

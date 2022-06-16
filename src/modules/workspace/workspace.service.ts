@@ -4,6 +4,7 @@ import { Workspace } from 'src/entities/Workspace.entity';
 import { Repository } from 'typeorm';
 import { CreateWorkspaceDTO } from './dto/CreateWorkspace.dto';
 import { GetWorkspaceOptions } from './dto/GetWorkspace.dto';
+import { QueryWorkspaces } from './dto/QueryWorkspaces.dto';
 import { UpdateWorkspaceDTO } from './dto/UpdateWorkspace.dto';
 
 @Injectable()
@@ -13,12 +14,37 @@ export class WorkspaceService {
     private repository: Repository<Workspace>,
   ) {}
 
-  getAll(): Promise<Workspace[]> {
-    return this.repository
+  getAll(query?: QueryWorkspaces): Promise<Workspace[]> {
+    let qb = this.repository
       .createQueryBuilder('workspace')
       .leftJoinAndSelect('workspace.building', 'building')
-      .orderBy('workspace.title')
-      .getMany();
+      .orderBy('workspace.title');
+
+    if (query.start && query.end)
+      qb.where((sq) => {
+        const subquery = sq
+          .subQuery()
+          .select('Workspace.id')
+          .from(Workspace, 'Workspace')
+          .innerJoin('Workspace.reservations', 'reservations')
+          .where('(reservations.start BETWEEN :start AND :end)', {
+            start: query.start,
+            end: query.end,
+          })
+          .andWhere('(reservations.end BETWEEN :start AND :end)', {
+            start: query.start,
+            end: query.end,
+          })
+          .getQuery();
+        return 'Workspace.id NOT IN (' + subquery + ')';
+      }).andWhere('workspace.isReservable = true');
+
+    if (query.buildingId)
+      qb.where('workspace.building.id = :buildingId', {
+        buildingId: query.buildingId,
+      });
+
+    return qb.getMany();
   }
 
   getById(id: number, options: GetWorkspaceOptions): Promise<Workspace> {
